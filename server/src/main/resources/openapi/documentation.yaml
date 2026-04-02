@@ -1,0 +1,191 @@
+openapi: 3.0.3
+info:
+  title: API LDDM - MergeSkills
+  description: API do Sistema de Gestão de Aprendizagem
+  version: 1.0.0
+servers:
+  - url: http://localhost:8080
+    description: Servidor de Desenvolvimento Local
+
+tags:
+  - name: Cursos
+    description: Gerenciamento de cursos
+  - name: Conteúdo
+    description: Lições e questões
+  - name: Progresso
+    description: Acompanhamento do estudante
+
+paths:
+  /courses:
+    get:
+      tags: [Cursos]
+      summary: Listar todos os cursos
+      responses:
+        '200':
+          description: Lista de cursos
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Course'
+
+  /courses/{id}/lessons:
+    get:
+      tags: [Conteúdo]
+      summary: Listar lições de um curso
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Lista de lições
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Lesson'
+
+  /lessons/{id}/questions:
+    get:
+      tags: [Conteúdo]
+      summary: Listar questões de uma lição
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Lista de questões
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Question'
+
+  /questions/{id}:
+    get:
+      tags: [Conteúdo]
+      summary: Obter detalhes de uma questão
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Questão encontrada
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Question'
+        '404':
+          description: Questão não encontrada
+
+  /progress/submit:
+    post:
+      tags: [Progresso]
+      summary: Enviar resposta
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SubmitAnswerRequest'
+      responses:
+        '200':
+          description: Resposta verificada
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SubmitAnswerResponse'
+
+  /progress/reset:
+    post:
+      tags: [Progresso]
+      summary: Reiniciar progresso
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ResetProgressRequest'
+      responses:
+        '200':
+          description: Progresso reiniciado
+
+  /progress/history/{userId}:
+    get:
+      tags: [Progresso]
+      summary: Histórico do usuário
+      parameters:
+        - name: userId
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Histórico retornado
+
+components:
+  schemas:
+    Course:
+      type: object
+      properties:
+        id: { type: integer }
+        title: { type: string }
+        description: { type: string }
+        icon: { type: string }
+        color: { type: string }
+        total_lessons: { type: integer }
+
+    Lesson:
+      type: object
+      properties:
+        id: { type: integer }
+        course_id: { type: integer }
+        title: { type: string }
+        description: { type: string }
+        order: { type: integer }
+
+    Question:
+      type: object
+      properties:
+        id: { type: integer }
+        lesson_id: { type: integer }
+        question: { type: string }
+        code: { type: string }
+        options:
+          type: array
+          items: { type: string }
+        correct_answer: { type: integer }
+        order: { type: integer }
+
+    SubmitAnswerRequest:
+      type: object
+      properties:
+        userId: { type: integer }
+        questionId: { type: integer }
+        selectedOption: { type: integer }
+
+    SubmitAnswerResponse:
+      type: object
+      properties:
+        isCorrect: { type: boolean }
+        correctAnswer: { type: integer }
+        message: { type: string }
+
+    ResetProgressRequest:
+      type: object
+      properties:
+        userId: { type: integer }
+        lessonId: { type: integer }
