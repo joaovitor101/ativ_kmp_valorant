@@ -2,10 +2,8 @@ package com.fatec.ativ_kmp_valorant
 import com.fatec.ativ_kmp_valorant.db.DatabaseFactory
 import com.fatec.ativ_kmp_valorant.db.ExposedAbilityRepository
 import com.fatec.ativ_kmp_valorant.db.ExposedAgentRepository
-import com.fatec.ativ_kmp_valorant.db.ExposedQuestionRepository
-import com.fatec.ativ_kmp_valorant.routes.courseRoutes
-import com.fatec.ativ_kmp_valorant.routes.lessonRoutes
-import com.fatec.ativ_kmp_valorant.routes.questionRoutes
+import com.fatec.ativ_kmp_valorant.routes.abilityRoutes
+import com.fatec.ativ_kmp_valorant.routes.agentRoutes
 import io.ktor.http.HttpStatusCode
 import io.ktor.serialization.kotlinx.json.json
 import io.ktor.server.application.*
@@ -33,9 +31,9 @@ fun Application.module() {
     }
     DatabaseFactory.init()
     //  Instanciando os repositórios (Exposed = banco real)
-    val courseRepository = ExposedAbilityRepository()
-    val lessonRepository = ExposedAgentRepository()
-    val questionRepository = ExposedQuestionRepository()
+    val abilityRepository = ExposedAbilityRepository()
+    val agentRepository = ExposedAgentRepository()
+
 
     routing{
         get("/") { call.respondText("Serviço Ktor ativo.") }
@@ -43,9 +41,7 @@ fun Application.module() {
         //  Swagger UI acessível em /swagger
         swaggerUI(path = "swagger", swaggerFile = "openapi/documentation.yaml")
 
-        courseRoutes(courseRepository, lessonRepository)
-        lessonRoutes(questionRepository)
-        questionRoutes(questionRepository)
-
+        abilityRoutes(abilityRepository)
+        agentRoutes(agentRepository, abilityRepository)
     }
 }

@@ -9,5 +9,5 @@ interface AbilityRepository {
     suspend fun getByAgentId(agentId: Int): List<Ability>
     suspend fun create(ability: Ability): Ability
     suspend fun update(id: Int, ability: Ability): Ability
-    suspend fun delete(id: Int)
+    suspend fun delete(id: Int): Int
 }

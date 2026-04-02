@@ -8,5 +8,5 @@ data class Ability(
     val id: Int,
     val agentId: Int,
     val name: String,
-    val description: String,
+    val description: String? = null,
 )

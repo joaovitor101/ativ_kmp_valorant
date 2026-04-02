@@ -4,7 +4,7 @@ import com.fatec.ativ_kmp_valorant.model.Ability
 import com.fatec.ativ_kmp_valorant.repository.AbilityRepository
 import org.jetbrains.exposed.sql.*
 import org.jetbrains.exposed.sql.transactions.experimental.newSuspendedTransaction
-
+import org.jetbrains.exposed.sql.SqlExpressionBuilder.eq
 class ExposedAbilityRepository : AbilityRepository {
 
     // Converter ResultRow → Ability

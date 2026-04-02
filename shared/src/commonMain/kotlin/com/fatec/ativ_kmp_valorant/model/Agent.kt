@@ -8,6 +8,6 @@ import kotlinx.serialization.Serializable
 data class Agent(
     val id: Int,
     val name: String,
-    val role: String, // Duelist, Sentinel...
-    val description: String,
+    val role: String?, // Duelist, Sentinel...
+    val description: String?,
 )

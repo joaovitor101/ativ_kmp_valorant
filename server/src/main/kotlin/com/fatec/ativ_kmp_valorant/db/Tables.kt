@@ -5,7 +5,7 @@ import org.jetbrains.exposed.sql.ReferenceOption
 
 object Agents : IntIdTable("agents") {
     val name = text("name")
-    val role = text("role") // Duelist, Sentinel, Controller, Initiator
+    val role = text("role").nullable() // Duelist, Sentinel, Controller, Initiator
     val description = text("description").nullable()
 }
 
