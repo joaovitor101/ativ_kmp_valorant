@@ -81,9 +81,6 @@ Você pode rodar o backend de duas formas:
 
 ---
 
-
----
-
 ## 🌐 Acessando a API
 
 A aplicação estará disponível em:
