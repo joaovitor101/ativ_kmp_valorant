@@ -155,10 +155,3 @@ Agora é só subir o banco, rodar o projeto e acessar:
 👉 http://localhost:8080
 
 ---
-
-Se quiser, posso complementar com:
-
-* exemplo de `.env`
-* collection do Postman
-* estrutura de pastas explicada
-* ou deploy (Render, Railway, etc.)
