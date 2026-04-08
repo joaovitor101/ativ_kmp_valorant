@@ -1,46 +1,164 @@
-This is a Kotlin Multiplatform project targeting Android, Server.
+# 🚀 README - Projeto KMP + Ktor (API com PostgreSQL)
 
-* [/composeApp](./composeApp/src) is for code that will be shared across your Compose Multiplatform applications.
-  It contains several subfolders:
-  - [commonMain](./composeApp/src/commonMain/kotlin) is for code that’s common for all targets.
-  - Other folders are for Kotlin code that will be compiled for only the platform indicated in the folder name.
-    For example, if you want to use Apple’s CoreCrypto for the iOS part of your Kotlin app,
-    the [iosMain](./composeApp/src/iosMain/kotlin) folder would be the right place for such calls.
-    Similarly, if you want to edit the Desktop (JVM) specific part, the [jvmMain](./composeApp/src/jvmMain/kotlin)
-    folder is the appropriate location.
-
-* [/server](./server/src/main/kotlin) is for the Ktor server application.
-
-* [/shared](./shared/src) is for the code that will be shared between all targets in the project.
-  The most important subfolder is [commonMain](./shared/src/commonMain/kotlin). If preferred, you
-  can add code to the platform-specific folders here too.
-
-### Build and Run Android Application
-
-To build and run the development version of the Android app, use the run configuration from the run widget
-in your IDE’s toolbar or build it directly from the terminal:
-- on macOS/Linux
-  ```shell
-  ./gradlew :composeApp:assembleDebug
-  ```
-- on Windows
-  ```shell
-  .\gradlew.bat :composeApp:assembleDebug
-  ```
-
-### Build and Run Server
-
-To build and run the development version of the server, use the run configuration from the run widget
-in your IDE’s toolbar or run it directly from the terminal:
-- on macOS/Linux
-  ```shell
-  ./gradlew :server:run
-  ```
-- on Windows
-  ```shell
-  .\gradlew.bat :server:run
-  ```
+Este projeto é uma API construída com **Kotlin Multiplatform (KMP)** utilizando **Ktor** no backend, com banco de dados **PostgreSQL** rodando via Docker.
 
 ---
 
-Learn more about [Kotlin Multiplatform](https://www.jetbrains.com/help/kotlin-multiplatform-dev/get-started.html)…
+## 📦 Pré-requisitos
+
+Antes de rodar o projeto, você precisa ter instalado:
+
+* Docker
+* Docker Compose
+* JDK 17+
+* IntelliJ IDEA (recomendado)
+
+---
+
+## 🐘 Subindo o banco de dados (PostgreSQL)
+
+O projeto já possui um `docker-compose.yml` configurado.
+
+### 🔧 Configuração
+
+```yaml
+services:
+  db:
+    image: postgres:15-alpine
+    container_name: mergeskills-db
+    restart: unless-stopped
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_USER: devuser
+      POSTGRES_PASSWORD: devpassword
+      POSTGRES_DB: mergeskills
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+
+volumes:
+  pgdata:
+```
+
+### ▶️ Rodar o container
+
+Execute na raiz do projeto:
+
+```bash
+docker-compose up -d
+```
+
+Isso irá:
+
+* Criar o container `mergeskills-db`
+* Subir o PostgreSQL na porta `5432`
+* Criar o banco `mergeskills`
+
+---
+
+## ⚙️ Configuração da aplicação
+
+Verifique se sua aplicação está apontando para o banco corretamente:
+
+```
+Host: localhost
+Port: 5432
+Database: mergeskills
+User: devuser
+Password: devpassword
+```
+
+---
+
+## ▶️ Rodando a aplicação
+
+Você pode rodar o backend de duas formas:
+
+### 💻 Via IntelliJ
+
+1. Abra o projeto
+2. Localize a classe `ApplicationKt`
+3. Clique em **Run**
+
+---
+
+### 🧪 Via terminal
+
+```bash
+./gradlew run
+```
+
+---
+
+## 🌐 Acessando a API
+
+A aplicação estará disponível em:
+
+```
+http://localhost:8080
+```
+
+---
+
+## 📚 Swagger (Documentação da API)
+
+A documentação interativa estará disponível em:
+
+```
+http://localhost:8080/swagger
+```
+
+*(ou `/docs`, dependendo da configuração do projeto)*
+
+---
+
+## 🔁 Rotas principais
+
+Exemplo de rota existente:
+
+```
+GET /agents
+```
+
+Essa rota retorna os agentes cadastrados no banco.
+
+---
+
+## 🛑 Parando o ambiente
+
+Para parar o banco:
+
+```bash
+docker-compose down
+```
+
+Se quiser remover os dados também:
+
+```bash
+docker-compose down -v
+```
+
+---
+
+## 🧠 Observações
+
+* O banco persiste os dados no volume `pgdata`
+* Caso altere credenciais, lembre de atualizar no código também
+* Logs da aplicação aparecem no console (Ktor + Exposed)
+
+---
+
+## ✅ Pronto!
+
+Agora é só subir o banco, rodar o projeto e acessar:
+
+👉 http://localhost:8080
+
+---
+
+Se quiser, posso complementar com:
+
+* exemplo de `.env`
+* collection do Postman
+* estrutura de pastas explicada
+* ou deploy (Render, Railway, etc.)
