@@ -68,7 +68,6 @@ User: devuser
 Password: devpassword
 ```
 
----
 
 ## ▶️ Rodando a aplicação
 
