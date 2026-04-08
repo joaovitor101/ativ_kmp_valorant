@@ -82,11 +82,6 @@ Você pode rodar o backend de duas formas:
 
 ---
 
-### 🧪 Via terminal
-
-```bash
-./gradlew run
-```
 
 ---
 
